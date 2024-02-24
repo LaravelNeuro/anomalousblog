@@ -20,7 +20,9 @@ class ScpWarning extends Model
         'clearance',
         'risk',
         'threat',
-        'assessment'
+        'assessment',
+        'disruption',
+        'vo_file'
     ];
     
     public function project() : BelongsTo

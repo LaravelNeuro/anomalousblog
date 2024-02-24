@@ -1,13 +1,30 @@
 <template>
 <v-container class="min-h-screen">
-  <v-chip
-      closable
-      style="height: 50px;"
-      class="bg-slate-800 absolute right-10"
-      label
+  
+  <v-expansion-panels>
+    <v-expansion-panel
+      class="article_expander"
     >
-    <div class="lang-slider"><div>🇬🇧</div><v-switch v-model="lang" class="lang-slider-control"></v-switch><div>🇩🇪</div></div>
-  </v-chip>
+    <v-chip
+            closable
+            style="height: 50px;"
+            class="bg-slate-800"
+            label
+          >
+          <div class="lang-slider"><div>🇬🇧</div><v-switch v-model="lang" class="lang-slider-control"></v-switch><div>🇩🇪</div></div>
+        </v-chip>
+    <v-expansion-panel-title class="article_expander_title_wrapper">
+        <div class="article_expander_title">{{ topLevelWarning.title }}</div>
+    </v-expansion-panel-title>
+      <v-expansion-panel-text class="">
+        <div v-html="topLevelWarning.assessment" class="tlWarning">
+
+        </div>
+      </v-expansion-panel-text>
+      <VueSound :scp-id=1 :file=topLevelWarning.vo_file title="SCP Warning Voice-Over" class="article_expander_player"/>
+      <ScpCard :scpData="topLevelWarning" :scpClasses="topLevelWarningData.en" />
+    </v-expansion-panel>
+  </v-expansion-panels> 
   <div  class="article_wrapper"
         v-for="article in articles"
             :key=article.id
@@ -21,15 +38,19 @@
         <div v-html=article.img class="article_expander_img"></div>
         <div v-if="!mobileHide" class="mobileDate"><p>{{ dateMake(article.created) }}</p><hr/></div>
         <div class="article_expander_title">{{ article.title }}</div>
-    </v-expansion-panel-title>
+        <div class="scpDoNotReadContainer">
+      <h1>{{ doNotRead }}</h1>
+    </div>
+      </v-expansion-panel-title>
+    
       <v-expansion-panel-text class="article_expander_txt">
         <BlogArticle
           :article="article"
         />
       </v-expansion-panel-text>
       <VueSound :article-id=article.id :file=article.articleVo title="Article Voice-Over" class="article_expander_player"/>
-      <VueSound :scp-id=article.SCPdata.id :file=article.SCPdata.vo_file title="SCP Warning Voice-Over" class="article_expander_player"/>
       <ScpCard :scpData=article.SCPdata :scpClasses=article.SCPdataEN />
+      <VueSound :scp-id=article.SCPdata.id :file=article.SCPdata.vo_file title="SCP Warning Voice-Over" class="article_expander_player"/>
     </v-expansion-panel>
   </v-expansion-panels>
   </div>
@@ -59,13 +80,16 @@ export default {
     return {
       articlesData: page.props.articles,
       articles: null,
+      topLevelWarningData: page.props.topLevelWarning,
+      topLevelWarning: page.props.topLevelWarning.en,
       application: page.props.application,
       mobileHide: true,
       window: {
             width: 0,
             height: 0
         },
-      lang: false
+      lang: false,
+      doNotRead: 'WARNING: Do not read or playback article!'
       };
     },
   watch: {
@@ -73,10 +97,14 @@ export default {
       if(val)
       {
         this.articles = this.articlesData.de;
+        this.topLevelWarning = this.topLevelWarningData.de;
+        this.doNotRead = 'WARNUNG: Artikel unter keinen Umständen lesen oder abspielen!';
       }
       else
       {
         this.articles = this.articlesData.en;
+        this.topLevelWarning = this.topLevelWarningData.en;
+        this.doNotRead = 'WARNING: Do not read or playback article!'
       }
     },
   },
@@ -184,6 +212,46 @@ export default {
   .lang-slider-control {
     max-height: 60px;
   }
+  .tlWarning {
+    line-height: 1.5;
+    font-size: 110%;
+    color: gainsboro;
+  }
+  .tlWarning:deep(.threatAssessment){
+    background: rgba(255, 255, 0, 0.1);
+    padding: 10px 10px;
+  }
+  .tlWarning:deep(.threatMeasures){
+    background: rgba(9, 255, 0, 0.1);
+    padding: 10px 10px;
+  }
+  .tlWarning:deep(.threatWarning){
+    background: rgba(255, 16, 16, 0.1);
+    padding: 10px 10px;
+  }
+  .tlWarning:deep(h3) {
+    font-size: 125%;
+    font-weight: 800;
+  }
+  .tlWarning:deep(hr) {
+    margin: 5px 0;
+  }
+
+  .scpDoNotReadContainer {
+    padding: 1.5rem;
+    width: 100%;
+    background: repeating-linear-gradient(-45deg, #f2a417, #f2a417 15px, #141617 15px, #141617 30px);
+  }
+  .scpDoNotReadContainer:deep(h1) {
+    font-size: 140%;
+    font-weight: 800;
+    font-family: "Minion Pro Bold";
+    background-color: #f2a417;
+    border: 3px solid black;
+    padding: 5px 5px;
+    text-align: center;
+    color: black;
+  }
   .article_expander_txt:deep(> div) {
                   padding: 5px 5px;
              }
@@ -197,7 +265,7 @@ export default {
     }
 
   .article_expander_title {
-      margin-left: 5px;
+      margin: 5px 5px;
       font-size: 125%;
       line-height: 1.1;
       font-weight: 800;
@@ -236,7 +304,7 @@ export default {
       display: default;
     }
     .article_expander_title {
-      margin-top: 5px;
+      margin: 5px 5px;
     }
     .article_wrapper:first-child {
       margin-top: 80px;

@@ -11,6 +11,10 @@
             </div>
         </div>
 
+        <div class="scp-special-warning" v-if=specialWarning v-html="scpData.specialWarning">
+
+        </div>
+
         <div class="scp-classification">
             <div :class="`scp-flex-row scp-threat-${ scpClasses.threat }-bgt scp-threat-${ scpClasses.threat }-bl`">
                 <div class="scp-class">
@@ -77,6 +81,11 @@
             required: true,
         },
     },
+    computed: {
+        specialWarning(){
+        return Object.hasOwn(this.scpData, 'specialWarning');
+        }
+    },
     data() {
     return {
       application: page.props.application
@@ -104,6 +113,19 @@
       padding: 10px;
       color: black;
       border: 5px solid rgb(153, 13, 13);
+  }
+
+  .scp-special-warning {
+    border-left: 5px solid rgb(153, 13, 13);
+    border-right: 5px solid rgb(153, 13, 13);
+    border-bottom: 5px solid rgb(153, 13, 13);
+    padding: 10px;
+    color: black;
+  }
+
+  .scp-special-warning:deep(h3) {
+    font-size: 120%;
+    font-weight: 800;
   }
 
   .scp-header-right > * {

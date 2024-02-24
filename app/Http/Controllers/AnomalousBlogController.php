@@ -79,6 +79,54 @@ class AnomalousBlogController extends Controller
                 return array(null, $htmlString);
             };
 
+        $topLevelWarning["en"] = [
+        'blog_id' => 'origin',
+        'containment' => 'Keter',
+        'clearance' => (object) ["name" => "Top Secret",
+                                 "level" => "Level 5"],
+        'risk' => (object) ["name" => "Caution",
+                            "level" => 2],
+        'threat' => 'Schwarz',
+        'disruption' => (object) ["name" => "Amida",
+                                 "level" => 5],
+        'title' => "SCP Foundation Report: The Anomalous Blog (anomalous.laravelneuro.org)",
+        'assessment' => "<div class='threatAssessment'><h3>Threat Assessment</h3>
+        <p>The Anomalous Blog represents a significant threat due to its unique ability to alter reality based on the content of its articles. The anomalous manifestations correlated with the blog's readership present a dynamic and unpredictable threat vector, with the potential for widespread disruption on a global scale. Given its Amida level Disruption Class designation, the anomaly poses a considerable challenge to both containment efforts and global normalcy. The unpredictable nature of the manifestations, coupled with the blog's persistent re-emergence on the public internet, necessitates an ongoing, adaptive containment strategy.</p></div>
+        <hr/>
+        <div class='threatMeasures'><h3>Measures Taken by the SCP Foundation</h3>
+        <p><b>Digital Quarantine:</b> The Foundation has seized and implemented a quarantine protocol on the Anomalous Blog's hosting server. Efforts to isolate the server from the broader internet have been partially successful, though the site's ability to breach containment remains a concern.</p>
+        <p><b>Content Monitoring and Manipulation:</b> Foundation cybersecurity teams are engaged in constant monitoring of the site for new content. Where possible, they inject threat assessments and warnings into the articles to deter readership, which appears to mitigate the severity of the manifestations.</p>
+        <p><b>Investigation of Origin:</b> Research teams are conducting investigations into the source of the blog's anomalous properties, including the method by which new content is generated and its ability to affect reality.</p>
+        <p><b>Public Disinformation Campaign:</b> To further reduce the potential readership and impact of the Anomalous Blog, the Foundation has initiated a disinformation campaign aimed at discrediting the site among the general public and the paranormal community.</p></div>",
+        'specialWarning' => "<h3>Public Warning:</h3>
+        <p>The SCP Foundation advises all individuals to avoid accessing, sharing, or engaging with the content of the Anomalous Blog hosted at anomalous.laravelneuro.org. Interaction with this site has been linked to unpredictable and dangerous alterations to reality. If you encounter this website or are directed to its content, please report the incident to local authorities or directly to the Foundation through secure channels. Do not share links to the site or discuss its content online to prevent further spread and impact. Your cooperation is essential in maintaining global safety and preventing the escalation of these anomalous manifestations.</p>",
+        'vo_file' => "storage/LaravelNeuro/CreepyPastaMachine/audio/top_level_warning_en.mp3"
+        ];
+
+        $topLevelWarning["de"] = [
+            'blog_id' => 'origin',
+            'containment' => 'Keter',
+            'clearance' => (object) ["name" => "Streng Geheim",
+                                     "level" => "Level 5"],
+            'risk' => (object) ["name" => "Vorsicht",
+                                "level" => 2],
+            'threat' => 'Black',
+            'disruption' => (object) ["name" => "Amida",
+                                     "level" => 5],
+            'title' => "SCP Foundation Bericht: Der Anomale Blog (anomalous.laravelneuro.org)",
+            'assessment' => "<div class='threatAssessment'><h3>Gefahrenbewertung</h3>
+            <p>Der Anomale Blog stellt eine erhebliche Bedrohung dar aufgrund seiner einzigartigen Fähigkeit, die Realität basierend auf dem Inhalt seiner Artikel zu verändern. Die anomalen Manifestationen, die mit der Leserschaft des Blogs korrelieren, präsentieren einen dynamischen und unvorhersehbaren Bedrohungsvektor mit dem Potenzial für weitreichende Störungen auf globaler Ebene. Angesichts seiner Einstufung in die Amida-Störungsklasse stellt die Anomalie eine erhebliche Herausforderung sowohl für die Eindämmungsbemühungen als auch für die globale Normalität dar. Die unvorhersehbare Natur der Manifestationen, zusammen mit der anhaltenden Wiederkehr des Blogs im öffentlichen Internet, erfordert eine fortlaufende, adaptive Eindämmungsstrategie.</p></div>
+            <hr/>
+            <div class='threatMeasures'><h3>Von der SCP Foundation ergriffene Maßnahmen</h3>
+            <p>Digitale Quarantäne: Die Foundation hat den Hosting-Server des Anomalen Blogs beschlagnahmt und ein Quarantäneprotokoll implementiert. Bemühungen, den Server vom breiteren Internet zu isolieren, waren teilweise erfolgreich, obwohl die Fähigkeit des Blogs, die Eindämmung zu durchbrechen, weiterhin ein Anliegen bleibt.</p>
+            <p>Inhaltsüberwachung und -manipulation: Cybersicherheitsteams der Foundation sind ständig mit der Überwachung der Website auf neue Inhalte beschäftigt. Wo möglich, injizieren sie Gefahrenbewertungen und Warnungen in die Artikel, um die Leserschaft abzuschrecken, was die Schwere der Manifestationen zu mildern scheint.</p>
+            <p>Untersuchung des Ursprungs: Forschungsteams führen Untersuchungen zur Quelle der anomalen Eigenschaften des Blogs durch, einschließlich der Methode, mit der neue Inhalte generiert werden und seine Fähigkeit, die Realität zu beeinflussen.</p>
+            <p>Öffentliche Desinformationskampagne: Um die potenzielle Leserschaft und die Auswirkungen des Anomalen Blogs weiter zu reduzieren, hat die Foundation eine Desinformationskampagne eingeleitet, die darauf abzielt, die Website in der Öffentlichkeit und in der paranormalen Gemeinschaft zu diskreditieren.</p></div>",
+            'specialWarning' => "<h3>Öffentliche Warnung</h3>
+            <p>Die SCP Foundation rät allen Personen, den Zugriff, das Teilen oder das Engagement mit dem Inhalt des Anomalen Blogs, gehostet unter anomalous.laravelneuro.org, zu vermeiden. Die Interaktion mit dieser Website wurde mit unvorhersehbaren und gefährlichen Veränderungen der Realität in Verbindung gebracht. Wenn Sie auf diese Website stoßen oder auf ihren Inhalt hingewiesen werden, melden Sie den Vorfall bitte den lokalen Behörden oder direkt der Foundation über sichere Kanäle. Teilen Sie keine Links zur Website oder diskutieren Sie ihren Inhalt online, um eine weitere Verbreitung und Auswirkung zu verhindern. Ihre Zusammenarbeit ist entscheidend, um die globale Sicherheit zu gewährleisten und eine Eskalation dieser anomalen Manifestationen zu verhindern.</p>",
+            'vo_file' => "storage/LaravelNeuro/CreepyPastaMachine/audio/top_level_warning_de.mp3"
+            ];
+
         $articles = BlogArticle::with(['scpDE', 'scpEN', 'link'])->where('published', true)->latest()->paginate(10);
 
         $articleData = [];
@@ -137,10 +185,11 @@ class AnomalousBlogController extends Controller
 
         return Inertia::render('AnomalousBlog', [
             "articles" => $articleData,
+            "topLevelWarning" => $topLevelWarning,
             "application" => [
                 "appName" => config('app.name'),
                 "assetURL" => asset('')
-                ]
+            ],
         ]);
     }
 }
