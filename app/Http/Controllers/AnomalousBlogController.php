@@ -145,11 +145,11 @@ class AnomalousBlogController extends Controller
             $allocateEN["created"] = $article->created_at;
             $allocateDE["created"] = $article->created_at;
 
-            $allocateDE["article"] = $articleDE;
+            $allocateDE["article"] = str_replace('```', '', str_replace('```html', '', $articleDE));
             $allocateDE["title"] = $titleDe;
             $allocateDE["img"] = $img;
 
-            $allocateEN["article"] = $articleEN;
+            $allocateEN["article"] = str_replace('```', '', str_replace('```html', '', $articleEN));
             $allocateEN["title"] = $titleEn;
             $allocateEN["img"] = $img;
 
