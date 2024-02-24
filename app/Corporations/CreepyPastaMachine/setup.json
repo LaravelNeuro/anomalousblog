@@ -226,6 +226,11 @@
         "type": "AGENT",
         "transitionName": "ScpVO",
         "transitionHandle": "Radio.SCPclerk"
+      },
+      {
+        "type": "FUNCTION",
+        "transitionName": "Validator",
+        "transitionHandle": "Validator"
       }
     ]
   }

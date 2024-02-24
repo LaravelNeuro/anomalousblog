@@ -29,4 +29,6 @@ class ScpWarning extends Model
     {
         return $this->belongsTo(BlogArticle::class, 'blog_id');
     }
+
+    
 }

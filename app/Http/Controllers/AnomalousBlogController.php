@@ -9,7 +9,7 @@ use App\Corporations\CreepyPastaMachine\Database\Models\BlogArticle;
 
 class AnomalousBlogController extends Controller
 {
-    public function portal()
+    public function portal($blogid = false)
     {
         $ClearanceLevelsEN = [
             "Level 1" => "Unrestricted",
@@ -86,7 +86,7 @@ class AnomalousBlogController extends Controller
                                  "level" => "Level 5"],
         'risk' => (object) ["name" => "Caution",
                             "level" => 2],
-        'threat' => 'Schwarz',
+        'threat' => 'Black',
         'disruption' => (object) ["name" => "Amida",
                                  "level" => 5],
         'title' => "SCP Foundation Report: The Anomalous Blog (anomalous.laravelneuro.org)",
@@ -110,7 +110,7 @@ class AnomalousBlogController extends Controller
                                      "level" => "Level 5"],
             'risk' => (object) ["name" => "Vorsicht",
                                 "level" => 2],
-            'threat' => 'Black',
+            'threat' => 'Schwarz',
             'disruption' => (object) ["name" => "Amida",
                                      "level" => 5],
             'title' => "SCP Foundation Bericht: Der Anomale Blog (anomalous.laravelneuro.org)",
@@ -127,7 +127,10 @@ class AnomalousBlogController extends Controller
             'vo_file' => "storage/LaravelNeuro/CreepyPastaMachine/audio/top_level_warning_de.mp3"
             ];
 
-        $articles = BlogArticle::with(['scpDE', 'scpEN', 'link'])->where('published', true)->latest()->paginate(10);
+        if($blogid !== false && BlogArticle::where('published', true)->where('id', $blogid)->count() == 1)
+            $articles = BlogArticle::with(['scpDE', 'scpEN', 'link'])->where('id', $blogid)->get();
+        else
+            $articles = BlogArticle::with(['scpDE', 'scpEN', 'link'])->where('published', true)->latest()->paginate(10);
 
         $articleData = [];
 

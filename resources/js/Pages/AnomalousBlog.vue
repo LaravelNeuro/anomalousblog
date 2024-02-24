@@ -5,14 +5,30 @@
     <v-expansion-panel
       class="article_expander"
     >
+
+    <a href="https://laravelneuro.org" target="_blank"><v-btn
+            class="bg-slate-700 m-1"
+            size="x-large"
+          >
+        <img class="max-h-9" :src="`${ application.assetURL }/images/LaravelNeuroIconTransparent.png`" alt="lneuroicon"/>
+    </v-btn></a>
+
     <v-chip
             closable
-            style="height: 50px;"
-            class="bg-slate-800"
+            size="x-large"
+            class="bg-slate-800 m-1"
             label
           >
           <div class="lang-slider"><div>🇬🇧</div><v-switch v-model="lang" class="lang-slider-control"></v-switch><div>🇩🇪</div></div>
-        </v-chip>
+    </v-chip>
+
+    <v-btn
+            class="bg-slate-700 m-1"
+            size="large"
+            @click="imprintOverlay = true"
+          >
+            {{ imprintBtn }}
+    </v-btn>
     <v-expansion-panel-title class="article_expander_title_wrapper">
         <div class="article_expander_title">{{ topLevelWarning.title }}</div>
     </v-expansion-panel-title>
@@ -30,7 +46,7 @@
             :key=article.id
             :article=article>
   <div class="nixie-wrapper" v-if="mobileHide"><NixieDate v-if="mobileHide" :date="article.created" /></div>
-  <v-expansion-panels>
+  <v-expansion-panels :mandatory="articles.length == 1 ? 'force' : false">
     <v-expansion-panel
       class="article_expander"
     >
@@ -45,7 +61,7 @@
     
       <v-expansion-panel-text class="article_expander_txt">
         <BlogArticle
-          :article="article"
+          :article="article" role="article"
         />
       </v-expansion-panel-text>
       <VueSound :article-id=article.id :file=article.articleVo title="Article Voice-Over" class="article_expander_player"/>
@@ -55,6 +71,31 @@
   </v-expansion-panels>
   </div>
   </v-container>
+  <v-overlay
+          role="site_notice"
+          v-model="imprintOverlay"
+          contained
+          class="align-center justify-center"
+          scroll-strategy="close"
+        >
+        <v-card
+        variant="elevated"
+                class="bg-slate-800 text-gray-100 m-2"
+                >
+          <v-card-title class="text-slate-200 m-2">
+              <v-icon start icon="mdi-developer-board"></v-icon>
+              {{ imprintBtn }}
+          </v-card-title>
+          <v-card-text v-html="imprint" class="imprint m-4">
+          </v-card-text>
+        </v-card>
+        <v-btn
+            class="bg-slate-800 m-4"
+            @click="imprintOverlay = false"
+          >
+            {{ imprintCloseBtn }}
+          </v-btn>  
+  </v-overlay>
 </template>
 
 <script>
@@ -89,9 +130,16 @@ export default {
             height: 0
         },
       lang: false,
-      doNotRead: 'WARNING: Do not read or playback article!'
+      doNotRead: 'WARNING: Do not read or playback article!',
+      imprint: '<h3>Site Owner:</h3><img src="images/imprintadress.png"><h3>Site Notice:</h3><p>Any content on this site, even if based on real events, should be considered fictional, since it has been crafted and edited with the explicit goal of creating fictional content.</p><p>Furthermore, the majority of content on this page was created using generative AI models, which have been networked using the <a href="https://laravelneuro.org" target="_blank">LaravelNeuro</a> framework.</p>',
+      imprintOverlay: false,
+      imprintCloseBtn: 'Close Site Notice',
+      imprintBtn: 'Site Notice'
       };
     },
+  computed: {
+
+  },
   watch: {
     lang: function (val) {
       if(val)
@@ -99,12 +147,18 @@ export default {
         this.articles = this.articlesData.de;
         this.topLevelWarning = this.topLevelWarningData.de;
         this.doNotRead = 'WARNUNG: Artikel unter keinen Umständen lesen oder abspielen!';
+        this.imprint = '<h3>Seitenbesitzer:</h3><img src="images/imprintadress.png"><h3>Seitenhinweise:</h3><p>Jegliche Inhalte auf dieser Seite sollten als fiktiv behandelt werden. Auch wenn artikel auf echten Nachrichten und Artikeln basieren, wurden diese explizit mit erfundenen Inhalten geschrieben und bearbeitet und sind deswegen nicht als faktisch zu behandeln.</p><p>Zudem wurden die Artikel auf dieser Seite mithilfe von generativen KI-Modellen angefertigt, welche mit Hilfe des <a href="https://laravelneuro.org" target="_blank">LaravelNeuro</a> Frameworks vernetzt wurden.</p>';
+        this.imprintBtn = 'Impressum';
+        this.imprintCloseBtn = 'Impressum schließen';
       }
       else
       {
         this.articles = this.articlesData.en;
         this.topLevelWarning = this.topLevelWarningData.en;
         this.doNotRead = 'WARNING: Do not read or playback article!'
+        this.imprint = '<h3>Site Owner:</h3><img src="images/imprintadress.png"><h3>Site Notice:</h3><p>Any content on this site, even if based on real events, should be considered fictional, since it has been crafted and edited with the explicit goal of creating fictional content.</p><p>Furthermore, the majority of content on this page was created using generative AI models, which have been networked using the <a href="https://laravelneuro.org" target="_blank">LaravelNeuro</a> framework.</p>';
+        this.imprintBtn = 'Site Notice';
+        this.imprintCloseBtn = 'Close Site Notice';
       }
     },
   },
@@ -235,6 +289,40 @@ export default {
   }
   .tlWarning:deep(hr) {
     margin: 5px 0;
+  }
+  
+  .v-overlay--active {
+    backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.8) !important;
+  } 
+
+  .v-overlay:deep(.v-overlay__scrim) {
+    background: rgba(0, 0, 0, 1) !important;
+  }
+
+  .imprint {
+    max-width: 800px;
+  }
+
+  .imprint:deep(h2, h3) {
+    font-size: 150%;
+    font-weight: 800;
+    font-family: "Minion Pro Bold";
+  }
+
+  .imprint:deep(h3) { 
+    font-size: 125%;
+    margin: 10px 0;
+  }
+
+  .imprint:deep(p) { 
+    font-size: 115%;
+    margin: 5px 0;
+  }
+
+  .imprint:deep(a) { 
+    color: orange;
+    text-decoration: underline;
   }
 
   .scpDoNotReadContainer {

@@ -31,8 +31,18 @@ class BlogArticle extends Model
         return $this->belongsTo(NetworkProject::class, 'project_id');
     }
 
-    public function scp() : HasOne
+    public function scpEN() : HasOne
     {
-        return $this->hasOne(ScpWarning::class, 'blog_id');
+        return $this->hasOne(ScpWarning::class, 'blog_id')->where('lang', 'en');
+    }
+
+    public function scpDE() : HasOne
+    {
+        return $this->hasOne(ScpWarning::class, 'blog_id')->where('lang', 'de');
+    }
+
+    public function link() : BelongsTo
+    {
+        return $this->belongsTo(NewsArticle::class, 'original');
     }
 }
