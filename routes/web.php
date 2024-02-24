@@ -14,7 +14,7 @@ use App\Http\Controllers\AnomalousBlogController;
 |
 */
 
-Route::get('/anomalous', [AnomalousBlogController::class, 'portal']);
+Route::get('/{blogid?}', [AnomalousBlogController::class, 'portal']);
 
 Route::get('/', function () {
     return view('welcome');
