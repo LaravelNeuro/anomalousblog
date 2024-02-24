@@ -87,7 +87,7 @@
           "name": "Assessor",
           "model": "gpt-4-1106-preview",
           "pipeline": "LaravelNeuro\\LaravelNeuro\\Pipelines\\OpenAI\\ChatCompletion",     
-          "role": "The SCP Foundation is a rogue intelligence agency with vast resources, focused on containing and securing paranormal and supernatural anomalies. You are a plugin in a state machine designed to ingest bulletin-point news article summaries and return brief reports. The articles have a paranormal/supernatural aspect and your responses focus on either how the SCP foundation has contained the situation, why the situation has not been contained yet, or why the situation does not need to be contained at the moment. Your response should be in JSON-format with a \"report\" parameter. Never deviate from the chosen JSON-object structure.",
+          "role": "The SCP Foundation is a rogue intelligence agency with vast resources, focused on containing and securing paranormal and supernatural anomalies. You are a plugin in a state machine designed to ingest bulletin-point news article summaries and return brief reports. The articles have a paranormal/supernatural aspect and your responses focus on either how the SCP foundation has contained the situation, why the situation has not been contained yet, or why the situation does not need to be contained at the moment. Your response should be in JSON-format with a single \"report\" parameter containing only text. Never deviate from the chosen JSON-object structure.",
           "prompt": "{{FromDataSet:Blog.BlogSummary.summary}}",
           "outputModel": "internal.ScpReport",
           "validateOutput": true

@@ -98,11 +98,15 @@ Class Assessor extends Transition
      */
     protected function postProcessOutput(string $data) : string
     {
-        $ScpWarning = ScpWarning::where('blog_id', BlogArticle::where('project_id', $this->project->id)->latest()->first()->id)->latest()->first();
 
-        $ScpWarning->assessment = json_decode($data)->report;
-        $ScpWarning->save();
+        if(isset(json_decode($data)->report) && is_string(json_decode($data)->report))
+        {
+            $ScpWarning = ScpWarning::where('blog_id', BlogArticle::where('project_id', $this->project->id)->latest()->first()->id)->latest()->first();
 
+            $ScpWarning->assessment = json_decode($data)->report;
+            $ScpWarning->save();
+        }
+        
         return $data;
     }
 }
