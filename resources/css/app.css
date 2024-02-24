@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: Minion Pro Regular;
+    src: url('Minion Pro Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+@font-face {
+    font-family: Deeter Regular;
+    src: url('Deeter Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+@font-face {
+    font-family: Minion Pro Bold;
+    src: url('Minion Pro Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+body {
+    background-color: black;
+    font-family: Minion Pro Regular;
+}
+
+@media (orientation: landscape) {
+    #body_filter {
+        background: url(/images/bgwide.webp), rgba(0,0,0,0.3);
+    }
+    #sparks {
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      left: 0;
+      top: 0;
+      background-size: cover;
+      background-attachment: fixed;
+      background-image: url(/images/numbers.gif);
+      mix-blend-mode: overlay;
+      opacity:0.1
+    }
+  }
+@media (orientation: portrait) {
+    #body_filter {
+        background-image: url(/images/bgportrait.webp);
+    }
+  }
+
+#body_filter {
+    min-width: 100%;
+    min-height: 100%;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
