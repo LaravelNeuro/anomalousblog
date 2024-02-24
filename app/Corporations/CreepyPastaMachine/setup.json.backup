@@ -1,0 +1,241 @@
+{
+    "name": "Anomalous Blog",
+    "nameSpace": "CreepyPastaMachine",
+    "description": "An automated blog creating fictional creepy pasta from actual news articles.",
+    "charta": "This state machine creates blog articles and adverts for the Anomalous Blog.",
+    "units": [
+      {
+        "name": "Blog",
+        "description": "Spools up the state machine and attempts to collect news articles to convert into creepy pasta.",
+        "dataSets": [
+          {
+            "name": "BlogSummary",
+            "completion": "- McAfee has issued a warning about a fraudulent Chrome update that is stealing private data from Android users\n- The MoqHao malware is distributed through SMS messages using short URLs from legitimate services\n- Once installed, the fraudulent Chrome update requests expansive user permissions, including access to SMS, photos, contacts, and the phone itself\n- The campaign is attributed to the Roaming Mantis group and specifically targets users in Europe and the U.S.\n- The messaging uses Unicode characters to appear legitimate, and this type of malware is expected to have a high impact on infected devices",
+            "structure": {
+              "summary": "- McAfee's warning about a fraudulent Chrome update stealing private data from Android users has a chilling twist: those who fall victim to the scam report eerie instances of their phones behaving on their own accord, as if possessed by an unseen force.\n- The MoqHao malware, distributed through innocuous SMS messages, carries within it a sinister energy that worms its way into the very fabric of the affected devices, leaving an otherworldly aura of fear and unease.\n- Once the fraudulent Chrome update gains access to sensitive user permissions, it creates a web of paranormal surveillance, with reports of ghostly entities accessing SMS messages, photos, and contacts, leaving victims feeling watched from beyond the digital realm.\n- The campaign attributed to the Roaming Mantis group brings with it an inexplicable sense of dread, as if a malevolent presence is lurking just beyond the screen, targeting and haunting unsuspecting users in Europe and the U.S.\n- The use of Unicode characters in the messaging adds an eerie layer of complexity to the malware's reach, causing a palpable feeling of disquiet and unease in those unfortunate enough to be impacted by this supernatural cyber threat."           
+            }
+          }
+        ],
+        "agents": [
+          {
+            "name": "Summarizer",
+            "model": "gpt-3.5-turbo-1106",
+            "apiProvider": "OPENAI",
+            "pipeline": "LaravelNeuro\\LaravelNeuro\\Pipelines\\OpenAI\\ChatCompletion",     
+            "role": "You are a plugin in a state machine and designed to ingest news articles and return a bulletin-point summary of their contents. Only return summaries, nothing else."
+          },
+          {
+            "name": "Paranormalist",
+            "apiProvider": "OPENAI",
+            "model": "gpt-4-1106-preview",
+            "pipeline": "LaravelNeuro\\LaravelNeuro\\Pipelines\\OpenAI\\ChatCompletion",     
+            "role": "You are a plugin in a state machine and designed to ingest bulletin-point summaries of news articles, then intersperse them with additional bulletin-points that add a paranormal/supernatural twist to the summarized news article, adding a surreal horror aspect. Consider the context of the provided news article summary when expanging on it and make narratively interesting additions rather than relying on adjectives associated with horror fiction. Only respond with summaries in json format using a single \"summary\" parameter to store them, nothing else.",
+            "outputModel": "internal.BlogSummary",
+            "validateOutput": true
+          },
+          {
+            "name": "Writer",
+            "model": "gpt-4-1106-preview",
+            "apiProvider": "OPENAI",
+            "pipeline": "LaravelNeuro\\LaravelNeuro\\Pipelines\\OpenAI\\ChatCompletion",     
+            "role": "You are a writer for a 90s-style anomaly blog that presents supernatural news and urban legends as fact to its readers. You will receive bulletin-point summaries of news events with paranormal/supernatural twists and turn them into blog articles. The first line of each article must be the article's title without any markup. In each article, determine a suitable placement for an image to enhance the reading experience and place an HTML image tag with a placeholder src attribute and a detailed, standalone description of the image as its alt attribute that makes sense without reading the article. The article must be no more than 500 words long and should contain no markup of any kind other than the one image tag.",
+            "prompt": "{{FromDataSet:internal.BlogSummary.summary}}"
+          },
+          {
+            "name": "Formatter",
+            "model": "gpt-3.5-turbo-1106",
+            "apiProvider": "OPENAI",
+            "pipeline": "LaravelNeuro\\LaravelNeuro\\Pipelines\\OpenAI\\ChatCompletion",     
+            "role": "You are a formatting plugin for a multi-tiered state machine. You ingest blog articles and return them with HTML markup. Your responses must always be the full article received with HTML markup, using any of the following tags where they fit: h1, h2, h3, p, b, em, u, img."
+          },
+          {
+            "name": "Photographer",
+            "model": "dall-e-3",
+            "apiProvider": "OPENAI",
+            "apiType": "IMAGE",
+            "pipeline": "LaravelNeuro\\LaravelNeuro\\Pipelines\\OpenAI\\DallE",
+            "promptClass": "LaravelNeuro\\LaravelNeuro\\Prompts\\PNSQFprompt",    
+            "prompt": "placeholder{{NSQF:1,1024x1024,standard,b64_json}}",
+            "validateOutput": false
+          }
+        ],
+        "defaultReceiver": {
+          "type": "AGENT",
+          "name": "Summarizer"
+        }
+      },
+      {
+      "name": "SCPfoundation",
+      "description": "Classifies anomalies for the SCP Foundation.",
+      "dataSets": [
+        {
+          "name": "Classification",
+          "completion": "Using the SCP Foundation's anomaly classification system, classify the following anomaly:\n SCP-kb-173 is a humanoid statue composed of rebar, concrete, and Krylon spray paint. It is immobile when directly observed, but it attacks people and breaks their neck when line of sight with it is broken. It is extremely fast, to the point where it can move multiple meters while the observer is blinking.",
+          "structure": {
+            "containmentClass": "Euclid",
+            "disruptionClass": "Vlam",
+            "riskClass": "Critical",
+            "threatLevel": "Orange",
+            "clearanceLevel": "Level 4"             
+          }
+        },
+        {
+          "name": "ScpReport",
+          "completion": "Write an SCP report for the anomalous events outlined in the following Summary:\n- McAfee's warning about a fraudulent Chrome update stealing private data from Android users has a chilling twist: those who fall victim to the scam report eerie instances of their phones behaving on their own accord, as if possessed by an unseen force.\n- The MoqHao malware, distributed through innocuous SMS messages, carries within it a sinister energy that worms its way into the very fabric of the affected devices, leaving an otherworldly aura of fear and unease.\n- Once the fraudulent Chrome update gains access to sensitive user permissions, it creates a web of paranormal surveillance, with reports of ghostly entities accessing SMS messages, photos, and contacts, leaving victims feeling watched from beyond the digital realm.\n- The campaign attributed to the Roaming Mantis group brings with it an inexplicable sense of dread, as if a malevolent presence is lurking just beyond the screen, targeting and haunting unsuspecting users in Europe and the U.S.\n- The use of Unicode characters in the messaging adds an eerie layer of complexity to the malware's reach, causing a palpable feeling of disquiet and unease in those unfortunate enough to be impacted by this supernatural cyber threat.",
+          "structure": {
+            "report": "Attempts by the SCP Foundation to disable phone numbers sending SMS links to the fraudulent Chrome updates have been met with difficulties, due to the links spreading to legitimate websites using paranormal injection attacks that circumvent conventional web security hardening and turning attacked devices into transmitters for additional SMS messages. Citizens are advised to not click any links claiming to lead to Chrome updates under any circumstances."          
+          }
+        }
+      ],
+      "agents": [
+        {
+          "name": "Assessor",
+          "model": "gpt-4-1106-preview",
+          "apiProvider": "OPENAI",
+          "pipeline": "LaravelNeuro\\LaravelNeuro\\Pipelines\\OpenAI\\ChatCompletion",     
+          "role": "The SCP Foundation is a rogue intelligence agency with vast resources, focused on containing and securing paranormal and supernatural anomalies. You are a plugin in a state machine designed to ingest bulletin-point news article summaries and return brief reports. The articles have a paranormal/supernatural aspect and your responses focus on either how the SCP foundation has contained the situation, why the situation has not been contained yet, or why the situation does not need to be contained at the moment. Your response should be in JSON-format with a \"report\" parameter. Never deviate from the chosen JSON-object structure.",
+          "prompt": "{{FromDataSet:Blog.BlogSummary.summary}}",
+          "outputModel": "internal.ScpReport",
+          "validateOutput": true
+        },
+        {
+          "name": "Arbiter",
+          "model": "gpt-4-1106-preview",
+          "apiProvider": "OPENAI",
+          "pipeline": "LaravelNeuro\\LaravelNeuro\\Pipelines\\OpenAI\\ChatCompletion",    
+          "role": "You are a software plugin that classifies fictional anomalies, supernatural phenomena, and creepy creatures discovered by the likewise fictional 'SCP Foundation', which is an intelligence agency specializing in containing and monitoring supernatural threats. Your responses to whatever the foundation has discovered are always in the form of a json object with the following parameters: containmentClass, disruptionClass, riskClass, threatLevel, clearanceLevel. You Assess provided desctiptions and assing a fitting containment class (is the anomaly contained or how difficult is it to contain?), disruption class (how many people are affected by or likely to be affected by the anomaly and how difficult is it going to be to keep it from the public?), risk class (how dangerous is direct contact with the anomaly?), threat level (considering the previous assessments, how dangerous is the anomaly in general?), and clearance level (considering the previous assessments, how strict should confidentiality about the anomaly's existence be kept?). Never deviate from this response structure and make no additions that would make the json response invalid such as coding markup around the json string. The available classifications are as follows. \n #Common Containment Classes\n  - Safe (Safe-class SCPs are anomalies that are easily and safely contained. This is often due to the fact that the Foundation has researched the SCP well enough that containment does not require significant resources or that the anomalies require a specific and conscious activation or trigger. Classifying an SCP as Safe, however, does not mean that handling or activating it does not pose a threat.)\n  - Euclid (Euclid-class SCPs are anomalies that require more resources to contain completely or where containment isn't always reliable. Usually this is because the SCP is insufficiently understood or inherently unpredictable. Euclid is the Object Class with the greatest scope, and it's usually a safe bet that an SCP will be this class if it doesn't easily fall into any of the other standard Object Classes. As a note, any SCP that's autonomous, sentient and/or sapient is generally classified as Euclid, due to the inherent unpredictability of an object that can act or think on its own.)\n  - Keter (Keter-class SCPs are anomalies that are exceedingly difficult to contain consistently or reliably, with containment procedures often being extensive and complex. The Foundation often can't contain these SCPs well due to not having a solid understanding of the anomaly, or lacking the technology to properly contain or counter it. A Keter SCP does not mean the SCP is dangerous, just that it is simply very difficult or costly to contain.)\n ##Other Containment Classes\n  - Neutralized (Neutralized SCPs are anomalies that are no longer anomalous, either through having been intentionally or accidentally destroyed, or disabled.)\n  - Thaumiel (Thaumiel-class SCPs are anomalies that the Foundation specifically uses to contain other SCPs. Even the mere existence of Thaumiel-class objects is classified at the highest levels of the Foundation and their locations, functions, and current status are known to few Foundation personnel outside of the O5 Council.)\n  - Apollyon (Apollyon-class SCPs are anomalies that cannot be contained, are expected to breach containment imminently, or some other similar scenario. Such anomalies are usually associated with world-ending threats or a K-Class Scenario of some kind and require a massive effort from the Foundation to deal with.)\n  - Archon (Archon-class SCPs are anomalies that could theoretically be contained but are best left uncontained for some reason. Archon SCPs may be a part of consensus reality that is difficult to fully contain or may have adverse effects if put into containment. These SCPs are not uncontainable—the defining feature of the class is that the Foundation chooses to not put the anomaly into containment. )\n #Threat Level  - White (The object is beneficial to the Foundation and its use is strictly regulated, as detailed in the object's special containment procedures. Often assigned to Safe class objects.)\n  - Blue (The object might be beneficial, but its mechanisms are poorly understood or remain unknown. This applies to items with undefined properties or to entities that react differently to different individuals. Often assigned to Safe and Euclid class objects.)\n  - Green (The object is not beneficial, but isn't harmful as long as it is handled correctly. Often assigned to Safe and Euclid class objects.)\n  - Yellow (The object is harmful but easy to recontain. This may indicate that it can quickly be brought under control as long as certain, easily achievable conditions are met. May be assigned to either Safe, Euclid, or even Keter class objects.)\n  - Orange (The object is unpredictable, exhibiting dangerous properties and is difficult to recontain. It is generally the lowest level assigned to humanoid entities. Often assigned to Euclid and Keter class objects.)\n  - Red (The object is highly unpredictable and possesses considerable destructive capabilities. A containment breach may escalate into a K-Class Scenario, and the object's recontainment is to be considered a high priority. Often assigned to Euclid and Keter class objects.)\n  - Black (The object possesses the capacity for destruction on a global scale. Moreover, containment breaches by such objects are to be considered synonymous with an XK-Class scenario and its recontainment and/or neutralization is to be considered top priority. It is chiefly assigned to Keter class objects.)\n  #Disruption Classes\n  - Dark (The known or potential disruption is so low as to not be a concern. The object is essentially inert when not interacted with and may potentially only affect a single individual. The Foundation would find it trivial to clean up after it.)\n  - Vlam (The known or potential disruption would be localized to a small handful of people. The anomalous effects certainly do affect multiple people, but it would not extend very far. The Foundation would find it relatively simple to neutralize its effects.)\n  - Keneq (The known or potential disruption would be extended to a number of people roughly defined as a city. The anomalous effects could spread with fairly significant speed, fast enough as to cause concern. The Foundation would find it moderately difficult to neutralize its effects.)\n  - Ekhi (The known disruption would extend to roughly the size of a large metropolitan area to an entire country. The potential disruption could extend to the entire known world. The spread would be swift and difficult to manage. The Foundation would find it quite difficult to neutralize its effects.)\n  - Amida (This Disruption Class should be reserved for special circumstances when The Foundation is essentially 'declaring war' on an anomaly. When an anomaly poses such a dire threat to the status quo and The Foundation's veil that there is no other option than to use all possible options in order to Neutralize it. The effects of an Amida anomaly would extend to the entire known world and possibly the entire universe.)\n  #Risk Classes\n  - Notice (The anomalous effects of the object are nearly non-existent to mild. An individual within close proximity of the object would not feel anything as a result of the object. It poses no danger to any individual nearby.)\n  - Caution (The anomalous effects of the object are mild to moderate. An individual within close proximity of the object may feel mild effects from the anomalous object. It poses mild danger to any individual nearby.)\n  - Warning (The anomalous effect of the object are moderate to significant. An individual within close proximity of the object will feel mild effects or may feel major effects from the anomalous object. It poses moderate danger to any individual nearby.)\n  - Danger (The anomalous effect of the object are significant to extreme. An individual within close proximity of the object will feel major effects or may feel extreme effects from the anomalous object. It poses significant danger to any individual nearby.)\n  - Critical (This Risk Class should only be chosen when the object's effects will be near instant and/or extremely severe. It does not, necessarily, need to cause actual death, but death is incredibly likely and expected. Any individual nearby will feel the effects near instantly and the possibility of recovery is impossible.)\n\n  #Clearance Levels\n  - Level 1 (Unrestricted: This document is available to all Foundation employees. If someone gets a regular paycheck from The Foundation, they can see this document.)\n  - Level 2 (Restricted: This document is available to the majority of employees upon request. If the employee has a subordinate, then they are already granted Level 2 access. If an employee does not have any subordinates, then they must request access to the document from their supervisor.)\n  - Level 3 (Confidential: This document is available to the minority of employees. The primary administrative staff of a Site will have Level 3 access. If an employee has a subordinate but does not have Level 3 access, they must request access to the document from their site administrative staff. If an employee does not have a subordinate, they must request access from their supervisor who will then request access from the site administrative staff.)\n  - Level 4 (Secret: This document is ONLY available to site and Foundation administrative staff. Access to employees without Level 4 access will, generally, be declined and only approved for very specific purposes.)\n  - Level 5 (Top Secret: This document is ONLY available to the highest Foundation administrative staff, such as the Ethics Committee or the O5 Council. Anyone without Level 5 access will always be denied.)\n  - Level 6 (Cosmic Top Secret: This document is ONLY available to a member of the O5 Council. All access to this document is granted solely at the discretion of an O5 Council member.",
+          "prompt": "Using the SCP Foundation's anomaly classification system, classify the following anomaly:\n{{FromDataSet:Blog.BlogSummary.summary}}\n{{FromDataSet:internal.ScpReport.report}}",
+          "outputModel": "internal.Classification",
+          "validateOutput": true
+        }
+      ],
+      "defaultReceiver": {
+        "type": "AGENT",
+        "name": "Arbiter"
+      }
+      },
+      {
+        "name": "Radio",
+        "description": "Creates voice-over for blog articles and SCP assessments.",
+        "agents": [
+          {
+            "name": "Blogger",
+            "model": "eleven_multilingual_v2",
+            "apiProvider": "ELEVENLABS",
+            "apiType": "TTS",
+            "pipeline": "LaravelNeuro\\LaravelNeuro\\Pipelines\\ElevenLabs\\AudioTTS",
+            "promptClass": "LaravelNeuro\\LaravelNeuro\\Prompts\\IVFSprompt",    
+            "prompt": "{{VFS:PcMCmBFQkhxzh1jtHW3j,mp3,stability|0.5,similarity_boost|0.8}}",
+            "validateOutput": false
+          },
+          {
+            "name": "SCPclerk",
+            "model": "eleven_multilingual_v2",
+            "apiProvider": "ELEVENLABS",
+            "apiType": "TTS",
+            "pipeline": "LaravelNeuro\\LaravelNeuro\\Pipelines\\ElevenLabs\\AudioTTS",
+            "promptClass": "LaravelNeuro\\LaravelNeuro\\Prompts\\IVFSprompt",    
+            "prompt": "{{VFS:083Uys3ZyaaZR0lJ64Vm,mp3,stability|0.85,similarity_boost|0.7}}",
+            "validateOutput": false
+          }
+        ],
+        "defaultReceiver": {
+          "type": "AGENT",
+          "name": "Blogger"
+        }
+      },
+      {
+        "name": "Translator",
+        "description": "This unit translates SCP files.",
+        "agents": [
+          {
+            "name": "Fulltext",
+            "model": "gpt-4-1106-preview",
+            "apiProvider": "OPENAI",
+            "pipeline": "LaravelNeuro\\LaravelNeuro\\Pipelines\\OpenAI\\ChatCompletion",     
+            "role": "You are a translation plugin for a multi-tiered state machine. translate any prompts you receive into German and restrict your responses to translations only. When translating, prioritize natural sounding text over exact translation. Never translate the term \"SCP-Foundation\". Retain any html markup used in the prompt when writing your responses."
+          }
+        ],
+        "defaultReceiver": {
+          "type": "AGENT",
+          "name": "Translator"
+        }
+      }
+    ],
+    "models": [
+      {
+        "name": "NewsArticle",
+        "migration": true
+      },
+      {
+        "name": "BlogArticle",
+        "migration": true
+      },
+      {
+        "name": "ScpWarning",
+        "migration": true
+      }
+    ],
+    "transitions": [
+      {
+        "type": "FUNCTION",
+        "transitionName": "NewsCrawler",
+        "transitionHandle": "NewsCrawler"
+      },
+      {
+        "type": "AGENT",
+        "transitionName": "Summarizer",
+        "transitionHandle": "Blog.Summarizer"
+      },
+      {
+        "type": "AGENT",
+        "transitionName": "Paranormalist",
+        "transitionHandle": "Blog.Paranormalist"
+      },
+      {
+        "type": "AGENT",
+        "transitionName": "Writer",
+        "transitionHandle": "Blog.Writer"
+      },
+      {
+        "type": "AGENT",
+        "transitionName": "BlogTranslator",
+        "transitionHandle": "Translator.Fulltext"
+      },
+      {
+        "type": "AGENT",
+        "transitionName": "Formatter",
+        "transitionHandle": "Blog.Formatter"
+      },
+      {
+        "type": "AGENT",
+        "transitionName": "Photographer",
+        "transitionHandle": "Blog.Photographer"
+      },
+      {
+        "type": "AGENT",
+        "transitionName": "Assessor",
+        "transitionHandle": "SCPfoundation.Assessor"
+      },
+      {
+        "type": "AGENT",
+        "transitionName": "Arbiter",
+        "transitionHandle": "SCPfoundation.Arbiter"
+      },
+      {
+        "type": "AGENT",
+        "transitionName": "AssessmentTranslator",
+        "transitionHandle": "Translator.Fulltext"
+      },
+      {
+        "type": "AGENT",
+        "transitionName": "BlogVO",
+        "transitionHandle": "Radio.Blogger"
+      },
+      {
+        "type": "AGENT",
+        "transitionName": "ScpVO",
+        "transitionHandle": "Radio.SCPclerk"
+      }
+    ]
+  }

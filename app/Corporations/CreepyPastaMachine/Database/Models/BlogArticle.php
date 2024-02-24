@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
-use Kbirenheide\LaravelNeuro\Networking\Database\Models\NetworkProject;
-
-use App\Corporations\CreepyPastaMachine\Database\Models\NewsArticle;
+use LaravelNeuro\LaravelNeuro\Networking\Database\Models\NetworkProject;
 use App\Corporations\CreepyPastaMachine\Database\Models\ScpWarning;
 
 class BlogArticle extends Model
@@ -33,18 +31,8 @@ class BlogArticle extends Model
         return $this->belongsTo(NetworkProject::class, 'project_id');
     }
 
-    public function link() : HasOne
+    public function scp() : HasOne
     {
-        return $this->hasOne(NewsArticle::class, 'id');
-    }
-
-    public function scpDE() : HasOne
-    {
-        return $this->hasOne(ScpWarning::class, 'blog_id')->where('lang', 'de');
-    }
-
-    public function scpEN() : HasOne
-    {
-        return $this->hasOne(ScpWarning::class, 'blog_id')->where('lang', 'en');
+        return $this->hasOne(ScpWarning::class, 'blog_id');
     }
 }
