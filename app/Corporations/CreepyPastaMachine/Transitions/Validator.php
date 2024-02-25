@@ -52,7 +52,7 @@ Class Validator extends Transition
         *  In both cases, setting either TuringMove::OUTPUT or TuringMode::COMPLETE will result in the state machine moving to the final step and generating a response.
         */
 
-        $isEmpty = false;
+        $isValid = true;
 
         $blogArticle = BlogArticle::where('project_id', $this->project->id)
             ->latest()
@@ -70,7 +70,7 @@ Class Validator extends Transition
 
             foreach ($blogRequired as $column) {
                 if (is_null($blogArticle->$column) || $blogArticle->$column === '') {
-                    $isEmpty = true;
+                    $isValid = false;
                     break;
                 }
             }
@@ -93,14 +93,16 @@ Class Validator extends Transition
             {
                 foreach ($scpRequired as $column) {
                     if (is_null($scpWarning->$column) || $scpWarning->$column === '') {
-                        $isEmpty = true;
+                        $isValid = false;
                         break 2;
                     }
                 }
             }
             
-            if ($isEmpty) {
-                $blogArticle->published = false;
+            if ($isValid) {
+                $blogArticle->published = true;
+                $blogArticle->articleEN = str_replace('```', '', str_replace('```html', '', $blogArticle->articleEN));
+                $blogArticle->articleDE = str_replace('```', '', str_replace('```html', '', $blogArticle->articleDE));
                 $blogArticle->save();
             }
 

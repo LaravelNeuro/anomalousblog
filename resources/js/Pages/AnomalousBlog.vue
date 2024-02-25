@@ -248,9 +248,10 @@ export default {
       this.cookies = false;
       if(choice == 'OK')
       {
-        this.$gtag.consent('update', {
-              'analytics_storage': 'granted'
-            });
+        this.$gtag.query('consent', 'update', {
+          analytics_storage: 'granted',
+          screen_name: 'Home page',
+        })
       }
     },
     setCookie(cname, cvalue, exdays, sameSite = 'Lax') {
@@ -377,9 +378,10 @@ export default {
       this.cookies = false;
       if(cconsent == 'OK')
       {
-        this.$gtag.consent('update', {
-              'analytics_storage': 'granted'
-            });
+        this.$gtag.query('consent', 'update', {
+          analytics_storage: 'granted',
+          screen_name: 'Home page',
+        })
       }
     }
   }

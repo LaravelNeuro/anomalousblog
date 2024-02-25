@@ -20,7 +20,7 @@ use App\Corporations\CreepyPastaMachine\Config;
 use App\Corporations\CreepyPastaMachine\Bootstrap;
 
 use App\Corporations\CreepyPastaMachine\Transitions\NewsCrawler;
-use App\Corporations\CreepyPastaMachine\Transitions\ScpVO;
+use App\Corporations\CreepyPastaMachine\Transitions\Validator;
 use App\Corporations\CreepyPastaMachine\Transitions\Summarizer;
 use App\Corporations\CreepyPastaMachine\Transitions\Paranormalist;
 use App\Corporations\CreepyPastaMachine\Transitions\Writer;
@@ -31,6 +31,7 @@ use App\Corporations\CreepyPastaMachine\Transitions\Assessor;
 use App\Corporations\CreepyPastaMachine\Transitions\Arbiter;
 use App\Corporations\CreepyPastaMachine\Transitions\AssessmentTranslator;
 use App\Corporations\CreepyPastaMachine\Transitions\BlogVO;
+use App\Corporations\CreepyPastaMachine\Transitions\ScpVO;
 use LaravelNeuro\LaravelNeuro\Networking\Transition;
 
 /**
@@ -139,6 +140,9 @@ class CreepyPastaMachine extends Corporation {
 			case 10:
 				$transition = new BlogVO($this->project->id, $head, $this->models);
 				break;
+			case 11:
+				$transition = new ScpVO($this->project->id, $head, $this->models);
+				break;
 			default:
 				$transition = new Transition($this->project->id, $head, $this->models);
 				break;
@@ -149,7 +153,7 @@ class CreepyPastaMachine extends Corporation {
 
     protected function final(TuringStrip $head) : TuringStrip
     {
-        $transition = new ScpVO($this->project->id, $head, $this->models);
+        $transition = new Validator($this->project->id, $head, $this->models);
 
         return $transition->handle();
     }

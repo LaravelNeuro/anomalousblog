@@ -105,11 +105,10 @@ Class BlogTranslator extends Transition
     {
         BlogArticle::where('project_id', $this->project->id)->latest()->first();
 
-        $this->blogEntry->articleDEraw = $data;
-        $this->blogEntry->project_id = $this->project->id;
-        $this->blogEntry->save();
-
         preg_match_all('/alt="(.+?)"/', $this->blogEntry->articleENraw, $imgPrompt);
+
+        $this->blogEntry->articleDEraw = $data;
+        $this->blogEntry->save();
 
         $data = json_encode([
                             ["article" => $this->blogEntry->articleENraw],

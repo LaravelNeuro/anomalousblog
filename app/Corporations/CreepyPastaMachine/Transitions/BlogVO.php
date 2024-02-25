@@ -92,12 +92,16 @@ Class BlogVO extends Transition
         {
             if(empty($blogArticle->articleENvo))
             {
-                $processedPrompt->setInput($blogArticle->articleENraw);
+                $readThis = preg_replace('/<img.+?>/', '', preg_replace('/\n<img.+?>\n/', '',            
+                                            $blogArticle->articleENraw));
+                $processedPrompt->setInput($readThis);
                 $this->head->setNext(TuringMove::REPEAT);
             }
             else
             {
-                $processedPrompt->setInput($blogArticle->articleDEraw);
+                $readThis = preg_replace('/<img.+?>/', '', preg_replace('/\n<img.+?>\n/', '',            
+                                            $blogArticle->articleDEraw));
+                $processedPrompt->setInput($readThis);
                 $this->head->setNext(TuringMove::NEXT);
             }
             
@@ -141,7 +145,7 @@ Class BlogVO extends Transition
         $ffmpeg = FFMpeg::create();
         $audio = $ffmpeg->open($tmp1);
         $audio->filters()
-              ->custom('equalizer=f=800:t=q:w=0.5:g=-25, equalizer=f=150:t=q:w=0.5:g=-50, aphaser=in_gain=0.8, volume=30dB');
+              ->custom('equalizer=f=800:t=q:w=0.5:g=-15, equalizer=f=150:t=q:w=0.5:g=-30, aphaser=in_gain=0.8, volume=20dB');
         $audio->save(new \FFMpeg\Format\Audio\Mp3, $tmp2);
 
         $staticFile = app_path('Corporations/CreepyPastaMachine/resources/anomalous_interference.mp3');   

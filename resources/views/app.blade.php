@@ -30,7 +30,7 @@
     <link rel="icon" sizes="16x16" href="images/fav/favicon-16x16.png">
     <link rel="preload" href="">
     <meta name="author" content="Koray Birenheide">
-    <meta name="description" content="If you can see this link, you are subject to an SCP Foundation containment breach recarding special case file SCP-AnomalousBlog. Do not enter the Anomalous Blog as it may have detrimental, altering effects on the fabric of reality." />
+    <meta name="description" content="If you can see this link, you are subject to an SCP Foundation containment breach regarding special case file SCP-AnomalousBlog. Do not enter the Anomalous Blog as it may have detrimental, altering effects on the fabric of reality." />
     <meta name="keywords" content="LaravelNeuro, AI, Artificial Intelligence, SCP Foundation, Anomalies, Paranormal, Supernatural, Horror, Fiction, Laravel, React, Vue, Vite, Koray Birenheide" />
     @vite('resources/js/app.js')
     @inertiaHead

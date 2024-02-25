@@ -43,6 +43,30 @@
     line-height: 1.2;
     }
 
+    .article:deep(h1) {
+      font-size: 150%;
+      font-weight: 800;
+      margin: 20px 0 10px 0;
+      text-decoration: double;
+    }
+
+    .article:deep(h2) {
+      font-size: 130%;
+      font-weight: 800;
+      margin: 15px 0 10px 0;
+      text-decoration: underline;
+    }
+
+    .article:deep(h3) {
+      font-size: 115%;
+      font-weight: 800;
+      margin: 10px 0 5px 0;
+    }
+
+    .article:deep(b) {
+    font-weight: 800;
+    }
+
     .assessment {
       background-color: rgb(190, 107, 107);
       color: black;

@@ -43,7 +43,7 @@ createInertiaApp({
       .use(plugin)
       .use(vuetify)
       .use(VueGtag, {
-        config: { id: "abconsent" }
+        config: { id: "G-BZ2YWVQ1KR" }
       })
       .mount(el)
   },

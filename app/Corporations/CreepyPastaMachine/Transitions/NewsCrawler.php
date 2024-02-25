@@ -99,7 +99,8 @@ Class NewsCrawler extends Transition
 
         BlogArticle::create([
             "project_id" => $this->project->id,
-            "original" => $getArticle->id
+            "original" => $getArticle->id,
+            "published" => false
         ]);
 
         ScpWarning::create([

@@ -18,6 +18,7 @@ class BlogArticle extends Model
     protected $fillable = [
         'project_id',
         'original',
+        'published',
         'articleENraw',
         'articleDEraw',
         'articleEN',
