@@ -29,6 +29,7 @@
           >
             {{ imprintBtn }}
     </v-btn>
+
     <v-expansion-panel-title class="article_expander_title_wrapper">
         <div class="article_expander_title">{{ topLevelWarning.title }}</div>
     </v-expansion-panel-title>
@@ -44,7 +45,9 @@
   <div  class="article_wrapper"
         v-for="article in articles"
             :key=article.id
-            :article=article>
+            :article=article
+          
+            >
   <div class="nixie-wrapper" v-if="mobileHide"><NixieDate v-if="mobileHide" :date="article.created" /></div>
   <v-expansion-panels :mandatory="articles.length == 1 ? 'force' : false">
     <v-expansion-panel
@@ -70,6 +73,17 @@
     </v-expansion-panel>
   </v-expansion-panels>
   </div>
+  <div class="w-full text-center">
+    <v-btn
+      v-if=showLoadMore
+        class="bg-red-900 mt-4 w-full"
+        size="x-large"
+        @click=loadMore
+      >
+    {{ loadMoreBtn }}
+    </v-btn>
+  </div>
+  
   </v-container>
   <v-overlay
           role="site_notice"
@@ -139,7 +153,7 @@
 </template>
 
 <script>
-import { Link, Head, usePage } from '@inertiajs/vue3'
+import { Link, Head, usePage, router } from '@inertiajs/vue3'
 import BlogArticle from './../Components/BlogArticle.vue'
 import ScpCard from './../Components/ScpCard.vue'
 import NixieDate from './../Components/NixieDate.vue'
@@ -177,13 +191,16 @@ export default {
       imprintCloseBtn: 'Close Site Notice',
       imprintBtn: 'Site Notice',
       essentialBtn: 'Essential',
+      loadMoreBtn: 'Load More',
       cookies: true,
+      currentPage: page.props.currentPage,
+      pages: page.props.pages,
       disclaimerTitle: 'Welcome to the Anomalous Blog.',
       disclaimer: '<p>This blog utilizes cookies for esstential site features, but also for analytics purposes via Google Tag Manager. If you would like to consent to analytics data of your visit being collected, please click "OK" below, or click "Essential" to only allow essential cookies.</p><br><div class="scpDoNotReadContainer"><h1>The SCP Foundation has seized control of this website to contain dangerous anomalies within. Due to unavoidable containment breaches, unauthorized users can sometimes still reach the Anomalous Blog. If you are not authorized, please leave this site immediately. Stay safe.</h1></div>',
       };
     },
   computed: {
-
+    showLoadMore() { return this.currentPage < this.pages },
   },
   watch: {
     lang: function (val) {
@@ -198,6 +215,7 @@ export default {
         this.imprintBtn = 'Impressum';
         this.imprintCloseBtn = 'Impressum schließen';
         this.essentialBtn = 'Essenzielle';
+        this.loadMoreBtn = 'Mehr Laden';
         this.disclaimerTitle = 'Willkommen zum Anomalous Blog.';
         this.disclaimer = '<p>Dieser Blog verwendet cookies für essenzielle-, aber auch für Analysezwecke mittels Google Tag Manager. Sollten Sie mit der Sammlung von Zugriffsdaten einverstanden sein, klicken Sie unten auf OK, oder klicken Sie auf "Essenzielle", um nur Cookies zu erlauben, die für den Betrieb dieser Seite notwendig sind.</p><br><div class="scpDoNotReadContainer"><h1>Die SCP Foundation hat die Kontrolle über diese Webpräsenz übernommen um gefährliche Anomalien einzudämmen. Aufgrund unvermeidbarer Eindämmungseinbrüche kann es dennoch passieren, dass unauthorisierte Nutzer diese Seite erreichen können. Sollten Sie nicht authorisiert sein, verlassen Sie den Anomalous Blog zu Ihrer eigenen Sicherheit bitte sofort. Seien Sie vorsichtig.</h1></div>';
       }
@@ -211,6 +229,7 @@ export default {
         this.imprintBtn = 'Site Notice';
         this.imprintCloseBtn = 'Close Site Notice';
         this.essentialBtn = 'Essential';
+        this.loadMoreBtn = 'Load More';
         this.disclaimerTitle = 'Welcome to the Anomalous Blog.';
         this.disclaimer = '<p>This blog utilizes cookies for esstential site features, but also for analytics purposes via Google Tag Manager. If you would like to consent to analytics data of your visit being collected, please click "OK" below, or click "Essential" to only allow essential cookies.</p><br><div class="scpDoNotReadContainer"><h1>The SCP Foundation has seized control of this website to contain dangerous anomalies within. Due to unavoidable containment breaches, unauthorized users can sometimes still reach the Anomalous Blog. If you are not authorized, please leave this site immediately. Stay safe.</h1></div>';
       }
@@ -308,6 +327,26 @@ export default {
       const month = String(dateify.getMonth() + 1).padStart(2, '0');
       const day = String(dateify.getDate()).padStart(2, '0');
       return `${day}.${month}.${year}`;
+    },
+    loadMore()
+    {
+      axios.get(`/?page=${this.currentPage + 1}`)
+        .then(response => {
+          this.articlesData.en = this.articlesData.en.concat(response.data.articles.en);
+          this.articlesData.de = this.articlesData.de.concat(response.data.articles.de);
+          if(this.lang)
+          {
+            this.articles = this.articlesData.de;
+          }
+          else
+          {
+            this.articles = this.articlesData.en;
+          }
+          this.currentPage = this.currentPage + 1;
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   },
   mounted: function() {
@@ -323,7 +362,6 @@ export default {
     {
       this.cookies = false;
     }
-    
   }
 }
 </script>
@@ -440,7 +478,6 @@ export default {
              }
   .nixie-wrapper {
     width: 100%;
-    margin-left: 42px;
   }
 
   .article_wrapper {
@@ -459,6 +496,7 @@ export default {
       border: 2px gray ridge;
       overflow: hidden;
     }
+
     .mobileDate {
       width: 100%;
       text-align: center;
@@ -480,9 +518,6 @@ export default {
     }
 
   @media screen and (min-width: 800px) {
-    .article_expander {
-    margin-left: 80px;
-    }
     .article_expander_title_wrapper {
       display: default;
     }
@@ -510,10 +545,23 @@ export default {
       border: 2px gray ridge;
       border-radius: 100%;
       overflow: hidden;
+      transition: all ease-in-out 1s;
     }
+
+    .article_expander_img:hover {
+      width: 500px;
+      height: 500px;
+      position: absolute;
+      top: -80px;
+      left: -80px;
+      border-radius: 5px;
+      overflow: hidden;
+      border: 3px black solid;
+      z-index: 999;
+    }
+
     .article_expander_txt {
-      padding: 0 0;
-      margin-left: -80px;
+      padding: 5px 5px;
     }
     .article_expander_img img {
       max-width: 100%;

@@ -190,8 +190,17 @@ class AnomalousBlogController extends Controller
             $articleData["de"][] = $allocateDE;
         }
 
+        if($articles->currentPage() > 1)
+        {
+            if($articles->count() == 0)
+                abort(404);
+            return response()->json(["articles" => $articleData]);
+        }
+
         return Inertia::render('AnomalousBlog', [
             "articles" => $articleData,
+            "currentPage" => 1,
+            "pages" => $articles->lastPage(),
             "topLevelWarning" => $topLevelWarning,
             "application" => [
                 "appName" => config('app.name'),
