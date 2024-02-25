@@ -56,7 +56,9 @@ class AnomalousBlogController extends Controller
                     $firstImage->parentNode->removeChild($firstImage);
                     $modifiedContent = $doc->saveHTML();
                     libxml_use_internal_errors(false);
-                    return array($doc->saveHTML($firstImage), $modifiedContent);
+                    return array(
+                        preg_replace('/http.+?storage/', 'storage', $doc->saveHTML($firstImage)), 
+                        $modifiedContent);
                 }
                 libxml_use_internal_errors(false);
                 return array(null, $htmlString);
@@ -155,8 +157,8 @@ class AnomalousBlogController extends Controller
             $allocateEN["title"] = $titleEn;
             $allocateEN["img"] = $img;
 
-            $allocateDE["articleVo"] = $article->articleDEvo;
-            $allocateEN["articleVo"] = $article->articleENvo;
+            $allocateDE["articleVo"] = 'storage/LaravelNeuro' . explode('LaravelNeuro', $article->articleDEvo)[1];
+            $allocateEN["articleVo"] = 'storage/LaravelNeuro' . explode('LaravelNeuro', $article->articleENvo)[1];
             $allocate["original"] = $article->link->first()->link;
             $allocateDE["SCPdata"] = $article->scpDE;
             $allocateEN["SCPdata"] = $article->scpEN;
