@@ -46,14 +46,14 @@
         v-for="article in articles"
             :key=article.id
             :article=article
-          
             >
   <div class="nixie-wrapper" v-if="mobileHide"><NixieDate v-if="mobileHide" :date="article.created" /></div>
   <v-expansion-panels :mandatory="articles.length == 1 ? 'force' : false">
     <v-expansion-panel
       class="article_expander"
     >
-    <v-expansion-panel-title class="article_expander_title_wrapper">
+    <v-expansion-panel-title class="article_expander_title_wrapper"
+    >
         <div v-html=article.img class="article_expander_img"></div>
         <div v-if="!mobileHide" class="mobileDate"><p>{{ dateMake(article.created) }}</p><hr/></div>
         <div class="article_expander_title">{{ article.title }}</div>
@@ -246,6 +246,12 @@ export default {
     cookieChoice(choice) {
       this.setCookie('cconsent', choice, 7);
       this.cookies = false;
+      if(choice == 'OK')
+      {
+        this.$gtag.consent('update', {
+              'analytics_storage': 'granted'
+            });
+      }
     },
     setCookie(cname, cvalue, exdays, sameSite = 'Lax') {
       const d = new Date();
@@ -347,7 +353,15 @@ export default {
         .catch(error => {
           console.error(error);
         });
-    }
+    },
+    expandedTrigger()
+    {
+      this.$gtag.event('articleExpanded', { method: 'Google' });
+    },
+    audioTrigger()
+    {
+      this.$gtag.event('audioPlayback', { method: 'Google' });
+    },
   },
   mounted: function() {
     this.articles = this.articlesData.en;
@@ -361,6 +375,12 @@ export default {
     if(cconsent == 'OK' || cconsent == 'essential')
     {
       this.cookies = false;
+      if(cconsent == 'OK')
+      {
+        this.$gtag.consent('update', {
+              'analytics_storage': 'granted'
+            });
+      }
     }
   }
 }

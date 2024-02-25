@@ -12,6 +12,8 @@ import * as directives from 'vuetify/directives'
 import { fa } from "vuetify/iconsets/fa";
 import { aliases, mdi } from "vuetify/lib/iconsets/mdi";
 
+import VueGtag from "vue-gtag";
+
 import "@mdi/font/css/materialdesignicons.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
@@ -40,6 +42,9 @@ createInertiaApp({
     createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(vuetify)
+      .use(VueGtag, {
+        config: { id: "abconsent" }
+      })
       .mount(el)
   },
 })
