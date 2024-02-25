@@ -119,9 +119,10 @@
           persistent
         >
         <div class="cookieMsgOverlay">
+          <div class="flex flex-col h-full justify-center">
         <v-card
           variant="elevated"
-          class="bg-slate-800 text-gray-100 m-2"
+          class="bg-slate-800 text-gray-100 m-2 overflow-y-auto"
                 >
           <v-card-title class="text-slate-200 m-2">
               <v-icon start icon="mdi-developer-board"></v-icon>
@@ -150,6 +151,7 @@
           >
             {{ essentialBtn }}          
         </v-btn> 
+      </div>
       </div>
   </v-overlay>
 </template>
