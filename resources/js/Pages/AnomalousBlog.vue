@@ -118,10 +118,10 @@
           scroll-strategy="block"
           persistent
         >
-
+        <div class="cookieMsgOverlay">
         <v-card
-        variant="elevated"
-                class="bg-slate-800 text-gray-100 m-2"
+          variant="elevated"
+          class="bg-slate-800 text-gray-100 m-2"
                 >
           <v-card-title class="text-slate-200 m-2">
               <v-icon start icon="mdi-developer-board"></v-icon>
@@ -150,6 +150,7 @@
           >
             {{ essentialBtn }}          
         </v-btn> 
+      </div>
   </v-overlay>
 </template>
 
@@ -420,6 +421,11 @@ export default {
   }
   .lang-slider-control {
     max-height: 60px;
+  }
+  .cookieMsgOverlay {
+    height: 100vh;
+    overflow-y: auto;
+    max-width: 98vw;
   }
   .tlWarning {
     line-height: 1.5;
