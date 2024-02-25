@@ -53,7 +53,7 @@
       class="article_expander"
     >
     <v-expansion-panel-title class="article_expander_title_wrapper"
-    @click="expandedTrigger"
+      @click="expandedTrigger"
     >
         <div v-html=article.img class="article_expander_img"></div>
         <div v-if="!mobileHide" class="mobileDate"><p>{{ dateMake(article.created) }}</p><hr/></div>
@@ -358,7 +358,7 @@ export default {
     },
     expandedTrigger()
     {
-      console.log("test");
+      this.$gtag.event('articleExpanded');
     },
     audioTrigger()
     {
