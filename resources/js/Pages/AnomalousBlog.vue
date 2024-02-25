@@ -96,6 +96,46 @@
             {{ imprintCloseBtn }}
           </v-btn>  
   </v-overlay>
+  <v-overlay
+          role="site_disclaimer"
+          v-model="cookies"
+          class="align-center justify-center"
+          scroll-strategy="block"
+          persistent
+        >
+
+        <v-card
+        variant="elevated"
+                class="bg-slate-800 text-gray-100 m-2"
+                >
+          <v-card-title class="text-slate-200 m-2">
+              <v-icon start icon="mdi-developer-board"></v-icon>
+              {{ disclaimerTitle }}
+          </v-card-title>
+          <v-chip
+            closable
+            size="x-large"
+            class="bg-slate-800 ml-6"
+            label
+          >
+          <div class="lang-slider"><div>🇬🇧</div><v-switch v-model="lang" class="lang-slider-control"></v-switch><div>🇩🇪</div></div>
+          </v-chip>
+          <v-card-text v-html="disclaimer" class="imprint m-4">
+          </v-card-text>
+        </v-card>
+        <v-btn
+            class="bg-slate-800 m-4"
+            @click="cookieChoice('OK')"
+          >
+            OK          
+        </v-btn> 
+        <v-btn
+            class="bg-slate-800 m-4"
+            @click="cookieChoice('essential')"
+          >
+            {{ essentialBtn }}          
+        </v-btn> 
+  </v-overlay>
 </template>
 
 <script>
@@ -130,11 +170,16 @@ export default {
             height: 0
         },
       lang: false,
-      doNotRead: 'WARNING: Do not read or playback article!',
+      shuffleBlock: false,
+      doNotRead: 'WARNING: Do not read or play back article!',
       imprint: '<h3>Site Owner:</h3><img src="images/imprintadress.png"><h3>Site Notice:</h3><p>Any content on this site, even if based on real events, should be considered fictional, since it has been crafted and edited with the explicit goal of creating fictional content.</p><p>Furthermore, the majority of content on this page was created using generative AI models, which have been networked using the <a href="https://laravelneuro.org" target="_blank">LaravelNeuro</a> framework.</p>',
       imprintOverlay: false,
       imprintCloseBtn: 'Close Site Notice',
-      imprintBtn: 'Site Notice'
+      imprintBtn: 'Site Notice',
+      essentialBtn: 'Essential',
+      cookies: true,
+      disclaimerTitle: 'Welcome to the Anomalous Blog.',
+      disclaimer: '<p>This blog utilizes cookies for esstential site features, but also for analytics purposes via Google Tag Manager. If you would like to consent to analytics data of your visit being collected, please click "OK" below, or click "Essential" to only allow essential cookies.</p><br><div class="scpDoNotReadContainer"><h1>The SCP Foundation has seized control of this website to contain dangerous anomalies within. Due to unavoidable containment breaches, unauthorized users can sometimes still reach the Anomalous Blog. If you are not authorized, please leave this site immediately. Stay safe.</h1></div>',
       };
     },
   computed: {
@@ -142,23 +187,32 @@ export default {
   },
   watch: {
     lang: function (val) {
+      this.shuffleBlock = true;
       if(val)
       {
+        this.setCookie('langPref', 'de', 7);
         this.articles = this.articlesData.de;
         this.topLevelWarning = this.topLevelWarningData.de;
         this.doNotRead = 'WARNUNG: Artikel unter keinen Umständen lesen oder abspielen!';
         this.imprint = '<h3>Seitenbesitzer:</h3><img src="images/imprintadress.png"><h3>Seitenhinweise:</h3><p>Jegliche Inhalte auf dieser Seite sollten als fiktiv behandelt werden. Auch wenn artikel auf echten Nachrichten und Artikeln basieren, wurden diese explizit mit erfundenen Inhalten geschrieben und bearbeitet und sind deswegen nicht als faktisch zu behandeln.</p><p>Zudem wurden die Artikel auf dieser Seite mithilfe von generativen KI-Modellen angefertigt, welche mit Hilfe des <a href="https://laravelneuro.org" target="_blank">LaravelNeuro</a> Frameworks vernetzt wurden.</p>';
         this.imprintBtn = 'Impressum';
         this.imprintCloseBtn = 'Impressum schließen';
+        this.essentialBtn = 'Essenzielle';
+        this.disclaimerTitle = 'Willkommen zum Anomalous Blog.';
+        this.disclaimer = '<p>Dieser Blog verwendet cookies für essenzielle-, aber auch für Analysezwecke mittels Google Tag Manager. Sollten Sie mit der Sammlung von Zugriffsdaten einverstanden sein, klicken Sie unten auf OK, oder klicken Sie auf "Essenzielle", um nur Cookies zu erlauben, die für den Betrieb dieser Seite notwendig sind.</p><br><div class="scpDoNotReadContainer"><h1>Die SCP Foundation hat die Kontrolle über diese Webpräsenz übernommen um gefährliche Anomalien einzudämmen. Aufgrund unvermeidbarer Eindämmungseinbrüche kann es dennoch passieren, dass unauthorisierte Nutzer diese Seite erreichen können. Sollten Sie nicht authorisiert sein, verlassen Sie den Anomalous Blog zu Ihrer eigenen Sicherheit bitte sofort. Seien Sie vorsichtig.</h1></div>';
       }
       else
       {
+        this.setCookie('langPref', 'en', 7);
         this.articles = this.articlesData.en;
         this.topLevelWarning = this.topLevelWarningData.en;
-        this.doNotRead = 'WARNING: Do not read or playback article!'
+        this.doNotRead = 'WARNING: Do not read or play back article!'
         this.imprint = '<h3>Site Owner:</h3><img src="images/imprintadress.png"><h3>Site Notice:</h3><p>Any content on this site, even if based on real events, should be considered fictional, since it has been crafted and edited with the explicit goal of creating fictional content.</p><p>Furthermore, the majority of content on this page was created using generative AI models, which have been networked using the <a href="https://laravelneuro.org" target="_blank">LaravelNeuro</a> framework.</p>';
         this.imprintBtn = 'Site Notice';
         this.imprintCloseBtn = 'Close Site Notice';
+        this.essentialBtn = 'Essential';
+        this.disclaimerTitle = 'Welcome to the Anomalous Blog.';
+        this.disclaimer = '<p>This blog utilizes cookies for esstential site features, but also for analytics purposes via Google Tag Manager. If you would like to consent to analytics data of your visit being collected, please click "OK" below, or click "Essential" to only allow essential cookies.</p><br><div class="scpDoNotReadContainer"><h1>The SCP Foundation has seized control of this website to contain dangerous anomalies within. Due to unavoidable containment breaches, unauthorized users can sometimes still reach the Anomalous Blog. If you are not authorized, please leave this site immediately. Stay safe.</h1></div>';
       }
     },
   },
@@ -170,6 +224,41 @@ export default {
         window.removeEventListener('resize', this.handleResize);
     },
   methods: {
+    cookieChoice(choice) {
+      this.setCookie('cconsent', choice, 7);
+      this.cookies = false;
+    },
+    setCookie(cname, cvalue, exdays, sameSite = 'Lax') {
+      const d = new Date();
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      let expires = "expires=" + d.toUTCString();
+      // Ensure sameSite value is one of 'None', 'Lax', or 'Strict'.
+      sameSite = ['Lax', 'Strict', 'None'].includes(sameSite) ? sameSite : 'Lax';
+
+      let cookieValue = cname + "=" + cvalue + ";" + expires + ";path=/;SameSite=" + sameSite;
+
+      // If sameSite is 'None', also add the 'Secure' attribute.
+      if (sameSite === 'None') {
+        cookieValue += ";Secure";
+      }
+
+      document.cookie = cookieValue;
+    },
+    getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    },
     randomDate() {
       const startDate = new Date(1992, 0, 1); // January 1 of start year
       const endDate = new Date(7125, 11, 31); // December 31 of end year
@@ -180,26 +269,21 @@ export default {
       return randomDate;
     },
     shuffleNixies() {
-      
-      this.articles = this.articles.map(article => {
-        article.realDate = article.created;
-        return { ...article };
-      });
 
-      for(var i = 0; i < 20; i++)
-      {
+        for(var i = 0; i < 20; i++)
+        {
+          setTimeout(() => {
+          this.articles = this.articles.map(article => {
+          article.created = this.randomDate();
+          return { ...article };
+          });}, i*50);
+        }
+
         setTimeout(() => {
-        this.articles = this.articles.map(article => {
-        article.created = this.randomDate();
-        return { ...article };
-        });}, i*50);
-      }
-
-      setTimeout(() => {
-        this.articles = this.articles.map(article => {
-        article.created = article.realDate;
-        return { ...article };
-      });}, 1000);
+          this.articles = this.articles.map(article => {
+          article.created = article.createdTmp;
+          return { ...article };
+        });}, 1000);
 
       setTimeout(this.shuffleNixies, Math.random() * 60000 + 1200);
 
@@ -228,7 +312,18 @@ export default {
   },
   mounted: function() {
     this.articles = this.articlesData.en;
+    let langPref = this.getCookie('langPref');
+    let cconsent = this.getCookie('cconsent');
     this.shuffleNixies();
+    if(langPref == 'de')
+    {
+      this.lang = true;
+    }
+    if(cconsent == 'OK' || cconsent == 'essential')
+    {
+      this.cookies = false;
+    }
+    
   }
 }
 </script>
@@ -325,12 +420,12 @@ export default {
     text-decoration: underline;
   }
 
-  .scpDoNotReadContainer {
+  .scpDoNotReadContainer, .v-card-text:deep(.scpDoNotReadContainer) {
     padding: 1.5rem;
     width: 100%;
     background: repeating-linear-gradient(-45deg, #f2a417, #f2a417 15px, #141617 15px, #141617 30px);
   }
-  .scpDoNotReadContainer:deep(h1) {
+  .scpDoNotReadContainer > h1, .v-card-text:deep(.scpDoNotReadContainer > h1) {
     font-size: 140%;
     font-weight: 800;
     font-family: "Minion Pro Bold";

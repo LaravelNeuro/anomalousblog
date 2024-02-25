@@ -144,6 +144,8 @@ class AnomalousBlogController extends Controller
 
             $allocateEN["created"] = $article->created_at;
             $allocateDE["created"] = $article->created_at;
+            $allocateEN["createdTmp"] = $article->created_at;
+            $allocateDE["createdTmp"] = $article->created_at;
 
             $allocateDE["article"] = str_replace('```', '', str_replace('```html', '', $articleDE));
             $allocateDE["title"] = $titleDe;

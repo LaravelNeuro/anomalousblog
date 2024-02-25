@@ -32,7 +32,7 @@
           
           // Apply the random filter to the element
           bodyFilterElement.style.filter = randomFilter;
-          body.style.fontFamily = "Deeter Regular";
+          body.style.fontFamily = "Xerox Malfunction";
           
           // remove the filter after a short time to make it look like a brief glitch
           setTimeout(() => {
@@ -41,12 +41,12 @@
           }, 100);
           setTimeout(() => {
             bodyFilterElement.style.filter = randomFilter;
-            body.style.fontFamily = "Deeter Regular";
+            body.style.fontFamily = "Xerox Malfunction";
           }, 150);
           setTimeout(() => {
             bodyFilterElement.style.filter = '';
             body.style.fontFamily = bodyFont;
-          }, 200);
+          }, 300);
 
           setTimeout(applyRandomFilter, Math.random() * 60000 + 5000);
         }

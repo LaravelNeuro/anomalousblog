@@ -3,21 +3,21 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: Minion Pro Regular;
+    font-family: "Minion Pro Regular";
     src: url('Minion Pro Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
 
 @font-face {
-    font-family: Deeter Regular;
-    src: url('Deeter Regular.ttf') format('truetype');
+    font-family: "Xerox Malfunction";
+    src: url('Xerox Malfunction BRK.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
   
 @font-face {
-    font-family: Minion Pro Bold;
+    font-family: "Minion Pro Bold";
     src: url('Minion Pro Bold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
