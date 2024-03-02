@@ -21,7 +21,7 @@
     <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <title>Anomalous Blog - LaravelNeuro</title>
+    
     <link rel="canonical" href="https://anomalous.laravelneuro.org/" />
     <link rel="apple-touch-icon" href="images/fav/apple-touch-icon.png">
     <link rel="icon" sizes="512x512" href="images/fav/android-chrome-512x512.png">
@@ -29,9 +29,7 @@
     <link rel="icon" sizes="32x32" href="images/fav/favicon-32x32.png">
     <link rel="icon" sizes="16x16" href="images/fav/favicon-16x16.png">
     <link rel="preload" href="">
-    <meta name="author" content="Koray Birenheide">
-    <meta name="description" content="If you can see this link, you are subject to an SCP Foundation containment breach regarding special case file SCP-AnomalousBlog. Do not enter the Anomalous Blog as it may have detrimental, altering effects on the fabric of reality." />
-    <meta name="keywords" content="LaravelNeuro, AI, Artificial Intelligence, SCP Foundation, Anomalies, Paranormal, Supernatural, Horror, Fiction, Laravel, React, Vue, Vite, Koray Birenheide" />
+    
     @vite('resources/js/app.js')
     @inertiaHead
   </head>

@@ -1,4 +1,17 @@
 <template>
+  <Head>
+    <meta name="author" content="Koray Birenheide" />
+
+    <title v-if="(articlesData.en.length != 1)">Anomalous Blog - LaravelNeuro</title>
+
+    <meta v-if="(articlesData.en.length != 1)" head-key="description" name="description" content="If you can see this link, you are subject to an SCP Foundation containment breach regarding special case file SCP-AnomalousBlog. Do not enter the Anomalous Blog as it may have detrimental, altering effects on the fabric of reality." />
+
+    <title v-if="(articlesData.en.length == 1)">{{articlesData.en[0].title}} - Anomalous Blog</title>
+
+    <meta v-if="(articlesData.en.length == 1)" head-key="description" name="description" :content="articlesData.en[0].SCPdata.assessment" />
+
+    <meta name="keywords" content="LaravelNeuro, AI, Artificial Intelligence, SCP Foundation, Anomalies, Paranormal, Supernatural, Horror, Fiction, Laravel, React, Vue, Vite, Koray Birenheide" />
+  </Head>
 <v-container class="min-h-screen">
   
   <v-expansion-panels>
