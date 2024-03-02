@@ -129,8 +129,8 @@ class AnomalousBlogController extends Controller
             'vo_file' => "storage/LaravelNeuro/CreepyPastaMachine/audio/top_level_warning_de.mp3"
             ];
 
-        if($blogid !== false && BlogArticle::where('published', true)->where('id', $blogid)->count() == 1)
-            $articles = BlogArticle::with(['scpDE', 'scpEN', 'link'])->where('id', $blogid)->get();
+        if($blogid !== false && BlogArticle::where('published', true)->where('id', $blogid)->first() !== null)
+            $articles = BlogArticle::with(['scpDE', 'scpEN', 'link'])->where('id', $blogid)->paginate(1);
         else
             $articles = BlogArticle::with(['scpDE', 'scpEN', 'link'])->where('published', true)->latest()->paginate(10);
 

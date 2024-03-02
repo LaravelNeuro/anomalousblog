@@ -314,10 +314,10 @@
   }
 
   .scp-threat-White-bgt {
-      background-color: #fff;
+      background-color: #8a8a8a;
   }
       .scp-threat-White-bgf {
-          background-color: #fff;
+          background-color: #8a8a8a;
       }
       .scp-threat-White-bl {
           border-left: 10px solid #fff;
