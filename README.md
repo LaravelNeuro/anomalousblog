@@ -1,5 +1,5 @@
 <h1><a href="https://anomalous.laravelneuro.org" target="_blank">Anomalous Blog</a> - A LaravelNeuro Proof-of-Concept Application</h1>
-![anomalousscreenshot1](https://github.com/LaravelNeuro/anomalousblog/assets/17987754/56444652-9468-4711-8446-d52eb56d767f)
+<img src="https://github.com/LaravelNeuro/anomalousblog/assets/17987754/56444652-9468-4711-8446-d52eb56d767f" alt="Anomalous Blog Screenshot" />
 
 ## What is LaravelNeuro?
 <a href="https://laravelneuro.org" target="_blank">LaravelNeuro</a> is a Laravel package designed to allow for the integration of AI APIs into your application architecture. This includes a sophisticated state-machine system that can be used to create complex LaravelNeuro state-machines, networking AI agents, php scripts, and Eloquent Models.
