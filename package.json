@@ -10,7 +10,7 @@
         "@mdi/font": "^7.4.47",
         "@vitejs/plugin-vue": "^5.0.4",
         "autoprefixer": "^10.4.17",
-        "axios": "^1.6.1",
+        "axios": "^1.7.3",
         "laravel-vite-plugin": "^1.0.1",
         "material-design-icons-iconfont": "^6.7.0",
         "postcss": "^8.4.35",
@@ -22,7 +22,7 @@
     "dependencies": {
         "@inertiajs/vue3": "^1.0.14",
         "puppeteer": "^22.0.0",
-        "vite-plugin-mkcert": "^1.17.3",
+        "vite-plugin-mkcert": "^1.16.0",
         "vue": "^3.4.19",
         "vue-cookies": "^1.8.3",
         "vue-gtag": "^2.0.1",
