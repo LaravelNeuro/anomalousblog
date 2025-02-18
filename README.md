@@ -20,7 +20,7 @@ DB_PASSWORD=
 OPENAI_API_KEY=
 GNEWS_API_KEY=
 ```
-You can procure API Keys on <a href="https://platform.openai.com" target="_blank">the Open AI Platform</a> and <a href="https://gnews.io/" target="_blank">the Open AI Platform</a> (WARNING: OpenAI Models are not free-to-use but rather come with a per-1000-tokens price. For reference: When generating new articles on the original <a href="https://anomalous.laravelneuro.org" target="_blank">Anomalous Blog</a>, the sum usage of all involved models costs approximately 25 cents per article at the moment.)
+You can procure API Keys on <a href="https://platform.openai.com" target="_blank">the Open AI Platform</a> and <a href="https://gnews.io/" target="_blank">genews.io</a> (WARNING: OpenAI Models are not free-to-use but rather come with a per-1000-tokens price. For reference: When generating new articles on the original <a href="https://anomalous.laravelneuro.org" target="_blank">Anomalous Blog</a>, the sum usage of all involved models costs approximately 25 cents per article at the moment.)
 
 In principle, all OpenAI models used here can be replaced with different models, if you have the necessary access and they offer a curl-based API (for example, you could replace chat-completion models with <a href="https://ollama.com/" target="_blank">Ollama-hosted</a> models. To do this, you'd have to either build a custom pipeline using the basic pipeline or use the basic pipeline: `LaravelNeuro\LaravelNeuro\Pipeline`
 
